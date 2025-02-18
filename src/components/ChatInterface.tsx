@@ -72,7 +72,14 @@ export default function ChatInterface() {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
-  
+
+  const handleKeyPress = (e: HandleKeyPressEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      void handleSend();
+    }
+  };
+
   const handleSend = async () => {
     if (!inputText.trim() || isProcessing) return;
 
@@ -195,6 +202,101 @@ export default function ChatInterface() {
 
     return null;
   };
-}
 
-  // ... rest of your component remains the same ...
+  if (!mounted) return null;
+
+  return (
+    <div className="fixed bottom-4 right-4 z-50">
+      <div className={`bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 w-72 ${
+        isMinimized ? 'h-12' : 'h-[450px]'
+      }`}>
+        {/* Header */}
+        <div className="bg-blue-500 text-white px-3 py-2 flex items-center justify-between">
+          <h1 className="text-sm font-medium">Text Processor</h1>
+          <button
+            onClick={() => setIsMinimized(!isMinimized)}
+            className="p-1 hover:bg-blue-600 rounded"
+          >
+            {isMinimized ? (
+              <Maximize2 className="w-4 h-4" />
+            ) : (
+              <Minimize2 className="w-4 h-4" />
+            )}
+          </button>
+        </div>
+
+        {!isMinimized && (
+          <>
+            {!isAPIsAvailable ? (
+              <div className="p-4 space-y-2">
+                <div className="flex items-start gap-2 text-amber-600">
+                  <Info className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    {getAPIStatusMessage()}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Messages */}
+                <div className="flex-1 overflow-y-auto p-2 space-y-2 h-[350px] bg-gray-50">
+                  {messages.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full text-gray-400 text-xs">
+                      <p>Type a message to begin</p>
+                    </div>
+                  ) : (
+                    messages.map(message => (
+                      <MessageDisplay
+                        key={message.id}
+                        message={message}
+                        onSummarize={handleSummarize}
+                        onTranslate={handleTranslate}
+                      />
+                    ))
+                  )}
+                  <div ref={messagesEndRef} />
+                </div>
+
+                {/* Error Display */}
+                {error && (
+                  <div className="px-4 py-2 bg-red-100 text-red-700 text-sm flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4" />
+                    <p>{error}</p>
+                  </div>
+                )}
+
+                {/* Input Area */}
+                <div className="border-t border-gray-200 p-4 bg-white">
+                  <div className="flex gap-2">
+                    <Textarea
+                      ref={textareaRef}
+                      value={inputText}
+                      onChange={(e) => setInputText(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      className="flex-1 resize-none text-sm min-h-[60px] max-h-[120px]"
+                      placeholder="Type your message... (Press Enter to send)"
+                      rows={2}
+                      disabled={isProcessing}
+                    />
+                    <button
+                      onClick={() => void handleSend()}
+                      disabled={!inputText.trim() || isProcessing}
+                      className="px-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                      aria-label="Send message"
+                    >
+                      {isProcessing ? (
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                      ) : (
+                        <Send className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
