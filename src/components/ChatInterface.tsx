@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { Send, AlertCircle, Loader2, Minimize2, Maximize2, Info } from 'lucide-react';
+import { useState } from 'react';
+import { Send, AlertCircle, Loader2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { MessageDisplay } from '@/components/MessageDisplay';
 import { detectLanguage, translateText, summarizeText } from '@/utils/chrome-api';
 import type { Message } from '@/types';
 
-// Added a comment to explain the purpose of the interface
+
 interface APIStatus {
   isChrome: boolean;
   hasLanguageDetection: boolean;
@@ -15,16 +15,13 @@ interface APIStatus {
   hasSummarizer: boolean;
 }
 
-interface HandleKeyPressEvent extends React.KeyboardEvent<HTMLTextAreaElement> {
-  currentTarget: HTMLTextAreaElement;
-}
-
-export default function ChatInterface() {
-  const [inputText, setInputText] = useState('');
+export default function ChatInterface() 
+{
+  const [inputText, setInputText] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [isAPIsAvailable, setIsAPIsAvailable] = useState(false);
+  const [isAPIsAvailable, setIsAPIsAvailable] = useState<boolean>(false);
   const [apiStatus, setApiStatus] = useState<APIStatus>({
     isChrome: false,
     hasLanguageDetection: false,
