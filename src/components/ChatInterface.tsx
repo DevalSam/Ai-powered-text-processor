@@ -15,8 +15,7 @@ interface APIStatus {
   hasSummarizer: boolean;
 }
 
-export default function ChatInterface() 
-{
+export default function ChatInterface() {
   const [inputText, setInputText] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);

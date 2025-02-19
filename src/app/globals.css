@@ -1,21 +1,88 @@
+/* globals.css */
+
+/* Tailwind base styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Custom styles for the text processor */
+.text-processor-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  height: 500px;
+  background-color: #e0f7ff; /* Light blue background */
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.text-processor-header {
+  background-color: #007acc; /* Darker blue for the header */
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.message-display {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #ffffff;
+}
+
+.input-area {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-top: 1px solid #ccc;
+}
+
+.input-area textarea {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: none;
+  outline: none;
+}
+
+.input-area button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.input-area button:hover {
+  background-color: #005f99;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #e0f7ff;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #000;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 12px;
+  text-align: center;
+  padding: 5px;
 }
