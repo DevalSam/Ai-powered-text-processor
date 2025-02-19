@@ -163,9 +163,14 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="fixed bottom-6 right-6 w-[320px] h-[500px] bg-gradient-to-b from-sky-100 to-sky-50 rounded-2xl shadow-lg border border-sky-200 flex flex-col overflow-hidden">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-sky-500 to-sky-400 p-4 text-white text-lg font-semibold rounded-t-2xl">
+        AI Text Processor
+      </div>
+
       {/* Message display area */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.map((message) => (
           <MessageDisplay
             key={message.id}
@@ -177,24 +182,24 @@ export default function ChatInterface() {
       </div>
 
       {/* Input area */}
-      <div className="border-t p-4">
+      <div className="p-4 border-t border-sky-200">
         <div className="relative">
           <Textarea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Type your message..."
-            className="pr-10"
+            className="pr-12 bg-white rounded-lg border-sky-300 focus:border-sky-400 focus:ring-2 focus:ring-sky-200"
           />
           <button
             onClick={handleSend}
             disabled={isProcessing}
-            className="absolute right-2 top-2 p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 disabled:bg-gray-400"
+            className="absolute right-2 top-2 p-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors disabled:bg-sky-300"
           >
             {isProcessing ? <Loader2 className="animate-spin" /> : <Send />}
           </button>
         </div>
         {error && (
-          <div className="mt-2 text-red-500 flex items-center">
+          <div className="mt-2 text-red-500 flex items-center text-sm">
             <AlertCircle className="mr-2" />
             {error}
           </div>
